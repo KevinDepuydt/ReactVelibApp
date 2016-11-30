@@ -16,13 +16,7 @@ export default class VelibList extends Component {
       velibList: ds.cloneWithRows([
         {
           fields: {
-            name: "Station 1",
-            position: [48.8589507, 2.2775172]
-          }
-        },
-        {
-          fields: {
-            name: "Station 2",
+            name: "Default station",
             position: [48.8589507, 2.2775172]
           }
         }
@@ -30,11 +24,14 @@ export default class VelibList extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.apiClient.get(API_URL).then((res) => {
-      console.log("Data received from api client", res);
       this.setState({velibList: ds.cloneWithRows(res.data.records)});
     });
+  }
+
+  componentWillUnmount() {
+    this.apiClient.clearCache();
   }
 
   render() {

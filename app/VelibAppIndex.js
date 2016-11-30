@@ -50,10 +50,6 @@ export default class App extends Component {
       }
     }
 
-    componentDidMount() {
-      // quand le composant est prêt
-    }
-
     render() {
       return (
         <View style={styles.container}>

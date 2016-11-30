@@ -35,7 +35,7 @@ export default class Map extends Component {
     this.watchID = null;
   }
 
-  componentDidMount() {
+  componentWillMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setMapPosition(position);
@@ -66,6 +66,7 @@ export default class Map extends Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+    this.apiClient.clearCache();
   }
 
   setMapPosition(position) {
@@ -94,11 +95,10 @@ export default class Map extends Component {
           style={styles.map}
           region={this.state.region}
         >
-          <MapView.Circle
-            center={this.state.currentPos.latlng}
-            radius={15}
-            fillColor="#FF7D00"
-            strokeColor="#FF7D00"
+          <MapView.Marker
+            coordinate={this.state.currentPos.latlng}
+            title="Current position"
+            image={require('./../images/current.png')}
           />
           {this.state.markers.map((marker, key) => (
             <MapView.Marker
@@ -106,6 +106,7 @@ export default class Map extends Component {
               coordinate={marker.coordinate}
               title={marker.title}
               description={marker.description}
+              image={require('./../images/station.png')}
             />
           ))}
         </MapView>
